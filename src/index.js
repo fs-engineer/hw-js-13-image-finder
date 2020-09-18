@@ -1,41 +1,45 @@
 import './css/normalize.css';
 import './css/base-styles.css';
 import './styles.css';
-
 import 'material-icons/iconfont/material-icons.css';
+
+import viewPnotify from './js/pnotify';
 
 import imageListTemplate from './templates/image-list.hbs';
 
-import apiService from './js/apiService';
 import { refs } from './js/refs';
+import apiService from './js/apiService';
 
-refs.searchForm.addEventListener('submit', hendleSubmit);
-refs.moreBtn.addEventListener('click', () => {
-  apiService.incrementPage();
-  createGalleryPage();
-  window.scrollTo({
-    top: 100,
-    left: 100,
-    behavior: 'smooth',
-  });
-});
+refs.searchForm.addEventListener('submit', handleSubmit);
+refs.moreBtn.addEventListener('click', handleShowMoreBtn);
 
-function hendleSubmit(event) {
-  getSearchQuery(event);
-  createGalleryPage();
+function handleSubmit(event) {
   apiService.resetPage();
+  resetImageCollection();
+  getSearchQuery(event);
+  generateGalleryPage();
   showMoreBtn();
+  viewPnotify(apiService.page);
+}
+
+function handleShowMoreBtn() {
+  apiService.incrementPage();
+  generateGalleryPage();
+  viewPnotify(apiService.page);
+  console.log(apiService.totalImages);
 }
 
 function getSearchQuery(event) {
   event.preventDefault();
 
-  const inputValue = event.target[0].value;
-
-  apiService.searchQuery = inputValue;
+  apiService.query = event.target.query.value;
 }
 
-function createGalleryPage() {
+function resetImageCollection() {
+  refs.gallery.innerHTML = '';
+}
+
+function generateGalleryPage() {
   apiService.fetchImages(apiService.searchQuery).then(images => {
     const markup = imageListTemplate(images);
     refs.gallery.insertAdjacentHTML('beforeend', markup);
