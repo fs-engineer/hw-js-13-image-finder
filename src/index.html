@@ -5,14 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>ImageFinder</title>
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
   </head>
 
   <body>
-    <div class="container">
+    <div class="gallery-container">
       <form class="search-form" id="search-form">
         <input
           type="text"
@@ -21,9 +17,11 @@
           placeholder="Search images..."
         />
 
-        <button class="form__button">Submit</button>
+        <button class="form__button" type="submit">Submit</button>
       </form>
       <ul class="gallery"></ul>
+
+      <button class="show-more js-invisible">show-more</button>
     </div>
   </body>
 </html>

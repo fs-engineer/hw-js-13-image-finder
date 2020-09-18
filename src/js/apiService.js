@@ -1,26 +1,30 @@
-import imageListTemplate from '../templates/image-list.hbs';
-import { refs } from './refs';
-
-console.log(refs);
-
-export default function fetchQuery() {
-  const options = {
+export default {
+  options: {
     method: 'GET',
-  };
-  const search = 'dog';
+  },
 
-  const key = '13118160-85f169275baea695b5828e8ed';
+  searchQuery: '',
+  page: 1,
 
-  return fetch(
-    `https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=${search}&page=1&per_page=12&key=${key}`,
-    options,
-  )
-    .then(res => res.json())
-    .then(images => images)
-    .then(({ hits }) => {
-      const markup = imageListTemplate(hits);
+  key: '13118160-85f169275baea695b5828e8ed',
 
-      refs.gallery.insertAdjacentHTML('beforeend', markup);
-    })
-    .catch(error => console.log(error));
-}
+  fetchImages() {
+    return fetch(
+      `https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=${this.searchQuery}&page=${this.page}&per_page=12&key=${this.key}`,
+      this.options,
+    )
+      .then(res => res.json())
+      .then(({ hits }) => {
+        return hits;
+      })
+      .catch(error => console.log(error));
+  },
+
+  resetPage() {
+    this.page = 1;
+  },
+
+  incrementPage() {
+    this.page += 1;
+  },
+};
