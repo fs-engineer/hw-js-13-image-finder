@@ -18,3 +18,42 @@ body {
    */
   background-image: url('./images/bg-pattern.png');
 }
+
+.photo-card {
+  position: relative;
+  overflow: hidden;
+  border: 3px solid #ffffff;
+}
+
+.gallery {
+  margin: 0 auto;
+  max-width: 1360px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.stats-item {
+  text-shadow: 2px 2px 2px #000000;
+}
+
+.stats {
+  position: absolute;
+  left: 15px;
+  bottom: 10px;
+  color: #ffffff;
+  opacity: 0;
+  font-size: 10px;
+}
+
+.photo-card:hover .stats {
+  opacity: 1;
+}
+
+img {
+  transition: transform 0.2s ease-out;
+}
+
+.photo-card:hover img {
+  cursor: pointer;
+  transform: scale(1.3);
+}
