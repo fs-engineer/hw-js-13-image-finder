@@ -10,6 +10,8 @@ import imageListTemplate from './templates/image-list.hbs';
 import { refs } from './js/refs';
 import apiService from './js/apiService';
 
+import openModal from './js/basiclightbox';
+
 refs.searchForm.addEventListener('submit', handleSubmit);
 refs.moreBtn.addEventListener('click', handleShowMoreBtn);
 
@@ -26,7 +28,11 @@ function handleShowMoreBtn() {
   apiService.incrementPage();
   generateGalleryPage();
   viewPnotify(apiService.page);
-  console.log(apiService.totalImages);
+
+  window.scrollTo({
+    top: 10000,
+    behavior: 'smooth',
+  });
 }
 
 function getSearchQuery(event) {
@@ -41,10 +47,17 @@ function resetImageCollection() {
 
 function generateGalleryPage() {
   apiService.fetchImages(apiService.searchQuery).then(images => {
-    const markup = imageListTemplate(images);
+    const markup = imageListTemplate(images.hits);
     refs.gallery.insertAdjacentHTML('beforeend', markup);
   });
 }
+
+// function generateGalleryPage() {
+//   apiService.fetchImages(apiService.searchQuery).then(({ images }) => {
+//     const markup = imageListTemplate(images);
+//     refs.gallery.insertAdjacentHTML('beforeend', markup);
+//   });
+// }
 
 function showMoreBtn() {
   refs.moreBtn.classList.remove('js-invisible');
