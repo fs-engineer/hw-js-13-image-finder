@@ -14,24 +14,22 @@ import apiService from './js/apiService';
 import createModal from './js/basiclightbox';
 
 refs.searchForm.addEventListener('submit', handleSubmit);
-refs.moreBtn.addEventListener('click', handleShowMoreBtn);
+// refs.moreBtn.addEventListener('click', handleShowMoreBtn);
 refs.gallery.addEventListener('click', hadleOpenModal);
+window.addEventListener('scroll', infinityScroll);
 
 function handleSubmit(event) {
   apiService.resetPage();
   resetImageCollection();
   getSearchQuery(event);
   generateGalleryPage();
-  showMoreBtn();
-  viewPnotify(apiService.page);
+  // showMoreBtn();
 }
 
-function handleShowMoreBtn() {
-  apiService.incrementPage();
-  generateGalleryPage();
-  viewPnotify(apiService.page);
-  windowScroll();
-}
+// function handleShowMoreBtn() {
+//   apiService.incrementPage();
+//   generateGalleryPage();
+// }
 
 function getSearchQuery(event) {
   event.preventDefault();
@@ -51,13 +49,15 @@ function generateGalleryPage() {
       refs.gallery.insertAdjacentHTML('beforeend', markup);
 
       getNumberOfImages(images);
+
+      viewPnotify(apiService.page);
     })
     .catch(error => console.log(error));
 }
 
-function showMoreBtn() {
-  refs.moreBtn.classList.remove('js-invisible');
-}
+// function showMoreBtn() {
+//   refs.moreBtn.classList.remove('js-invisible');
+// }
 
 function getNumberOfImages(images) {
   apiService.totalImages = images.total;
@@ -72,11 +72,11 @@ function hadleOpenModal(event) {
   createModal(largeImageURL);
 }
 
-function windowScroll() {
-  const scrollOptions = {
-    left: leftInput.value,
-    top: topInput.value,
-    behavior: scrollInput.checked ? 'smooth' : 'auto',
-  };
-  window.scrollTo(scrollOptions);
+function infinityScroll() {
+  const viewPortBottom = document.documentElement.getBoundingClientRect()
+    .bottom;
+  if (viewPortBottom < document.documentElement.clientHeight + 100) {
+    apiService.incrementPage();
+    generateGalleryPage();
+  }
 }

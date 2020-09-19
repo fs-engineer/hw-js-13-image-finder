@@ -27,6 +27,13 @@ button {
   cursor: pointer;
 }
 
+img,
+picture {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
 .gallery-container {
   padding: 50px 0;
 }
@@ -48,9 +55,10 @@ input[name='query'] {
   position: relative;
   overflow: hidden;
   border: 3px solid #ffffff;
+  height: 220px;
 }
 
-.gallery {
+.js-gallery {
   margin: 0 auto;
   max-width: 1360px;
   display: flex;

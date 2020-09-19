@@ -4,9 +4,9 @@ import '@pnotify/core/dist/BrightTheme.css';
 import apiService from './apiService';
 
 export default function viewPNotify(num) {
-  const myInfo = info({
+  info({
     text: `All found: ${apiService.totalImages},
     ${num} page loaded`,
-    delay: 1000,
+    delay: 700,
   });
 }

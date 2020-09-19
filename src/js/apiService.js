@@ -22,20 +22,6 @@ export default {
     }
   },
 
-  // fetchImages() {
-  //   return fetch(
-  //     `https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=${this.searchQuery}&page=${this.page}&per_page=12&key=${this.key}`,
-  //     this.options,
-  //   )
-  //     .then(res => res.json())
-  //     .then(({ hits }) => {
-  //       this.totalImages = [...hits, ...this.totalImages];
-  //       console.log(this.totalImages);
-  //       return hits;
-  //     })
-  //     .catch(error => console.log(error));
-  // },
-
   resetPage() {
     this.page = 1;
   },
@@ -44,15 +30,11 @@ export default {
     this.page += 1;
   },
 
-  imageCollection(obj) {
-    this.totalImages.append(obj);
-  },
-
   set query(value) {
     this.searchQuery = value;
   },
 
-  get totalImageLength() {
-    return this.totalImages.length;
-  },
+  // get totalImageLength() {
+  //   return this.totalImages.length;
+  // },
 };
