@@ -2,6 +2,7 @@ import './css/normalize.css';
 import './css/base-styles.css';
 import './styles.css';
 import 'material-icons/iconfont/material-icons.css';
+import './scss/basicLightBox.scss';
 
 import viewPnotify from './js/pnotify';
 
@@ -10,10 +11,11 @@ import imageListTemplate from './templates/image-list.hbs';
 import { refs } from './js/refs';
 import apiService from './js/apiService';
 
-import openModal from './js/basiclightbox';
+import createModal from './js/basiclightbox';
 
 refs.searchForm.addEventListener('submit', handleSubmit);
 refs.moreBtn.addEventListener('click', handleShowMoreBtn);
+refs.gallery.addEventListener('click', hadleOpenModal);
 
 function handleSubmit(event) {
   apiService.resetPage();
@@ -28,11 +30,7 @@ function handleShowMoreBtn() {
   apiService.incrementPage();
   generateGalleryPage();
   viewPnotify(apiService.page);
-
-  window.scrollTo({
-    top: 10000,
-    behavior: 'smooth',
-  });
+  windowScroll();
 }
 
 function getSearchQuery(event) {
@@ -46,19 +44,39 @@ function resetImageCollection() {
 }
 
 function generateGalleryPage() {
-  apiService.fetchImages(apiService.searchQuery).then(images => {
-    const markup = imageListTemplate(images.hits);
-    refs.gallery.insertAdjacentHTML('beforeend', markup);
-  });
-}
+  apiService
+    .fetchImages(apiService.searchQuery)
+    .then(images => {
+      const markup = imageListTemplate(images.hits);
+      refs.gallery.insertAdjacentHTML('beforeend', markup);
 
-// function generateGalleryPage() {
-//   apiService.fetchImages(apiService.searchQuery).then(({ images }) => {
-//     const markup = imageListTemplate(images);
-//     refs.gallery.insertAdjacentHTML('beforeend', markup);
-//   });
-// }
+      getNumberOfImages(images);
+    })
+    .catch(error => console.log(error));
+}
 
 function showMoreBtn() {
   refs.moreBtn.classList.remove('js-invisible');
+}
+
+function getNumberOfImages(images) {
+  apiService.totalImages = images.total;
+}
+
+function hadleOpenModal(event) {
+  if (event.target.nodeName !== 'IMG') {
+    return;
+  }
+  const largeImageURL = event.target.dataset.source;
+
+  createModal(largeImageURL);
+}
+
+function windowScroll() {
+  const scrollOptions = {
+    left: leftInput.value,
+    top: topInput.value,
+    behavior: scrollInput.checked ? 'smooth' : 'auto',
+  };
+  window.scrollTo(scrollOptions);
 }

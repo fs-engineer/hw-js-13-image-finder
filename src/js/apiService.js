@@ -5,16 +5,21 @@ export default {
 
   searchQuery: '',
   page: 1,
+  totalImages: '',
 
   key: '13118160-85f169275baea695b5828e8ed',
 
   async fetchImages() {
-    const response = await fetch(
-      `https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=${this.searchQuery}&page=${this.page}&per_page=12&key=${this.key}`,
-      this.options,
-    );
-    const { hits, total } = await response.json();
-    return { hits, total };
+    try {
+      const response = await fetch(
+        `https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=${this.searchQuery}&page=${this.page}&per_page=12&key=${this.key}`,
+        this.options,
+      );
+      const { hits, total } = await response.json();
+      return { hits, total };
+    } catch (error) {
+      throw error;
+    }
   },
 
   // fetchImages() {
