@@ -33,8 +33,4 @@ export default {
   set query(value) {
     this.searchQuery = value;
   },
-
-  // get totalImageLength() {
-  //   return this.totalImages.length;
-  // },
 };

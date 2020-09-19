@@ -13,10 +13,17 @@ import apiService from './js/apiService';
 
 import createModal from './js/basiclightbox';
 
+const throttle = require('lodash.throttle');
+
 refs.searchForm.addEventListener('submit', handleSubmit);
 // refs.moreBtn.addEventListener('click', handleShowMoreBtn);
 refs.gallery.addEventListener('click', hadleOpenModal);
-window.addEventListener('scroll', infinityScroll);
+window.addEventListener(
+  'scroll',
+  throttle(() => {
+    infinityScroll();
+  }, 500),
+);
 
 function handleSubmit(event) {
   apiService.resetPage();
